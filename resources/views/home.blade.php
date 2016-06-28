@@ -273,6 +273,12 @@
                 });
 
                 getRoutes();
+
+                setInterval(function(){
+                    if ($("select#stops option:selected").val() !== "") {
+                        getTime($("select#routes option:selected").val(), $("select#itineraries option:selected").val(), $("select#stops option:selected").val());
+                    }
+                }, 15000);
             });
         </script>
         <script async defer
