@@ -42,6 +42,10 @@ class MainController extends Controller
                 $data = ParserService::getRouteItineraryStopNextBus($request->get('route'), $request->get('itinerary'), $request->get('stop'), $request->get('time'));
                 break;
             }
+            case 'bus_position': {
+                $data = ParserService::getRouteItineraryBusPosition($request->get('route'), $request->get('itinerary'), $request->get('bus'));
+                break;
+            }
             default: {
                 return response()->json(['error' => 404, 'message' => 'Not found'], 404);
             }

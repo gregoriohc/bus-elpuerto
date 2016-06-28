@@ -133,6 +133,21 @@ class ParserService
         ];
     }
 
+    public static function getRouteItineraryBusPosition($routeId, $itineraryId, $busId)
+    {
+        $response = self::client()->request('POST', 'tiemporeal/ajax_posicionbus.php', [
+            'form_params' => [
+                'linea' => $routeId,
+                'itinerario' => $itineraryId,
+                'idbus' => $busId,
+            ],
+        ]);
+
+        $data = (string) $response->getBody();
+
+        return explode(':', $data);
+    }
+
     public static function getRouteItineraryMap($routeId, $itineraryId)
     {
         $coords = [];

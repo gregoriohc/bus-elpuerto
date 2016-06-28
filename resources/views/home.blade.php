@@ -45,8 +45,8 @@
 
             function initMap() {
                 map = new google.maps.Map(document.getElementById("map"), {
-                    center: new google.maps.LatLng(40.5472,12.282715),
-                    zoom: 6,
+                    center: new google.maps.LatLng(36.5958115,-6.2299681),
+                    zoom: 13,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 });
 
@@ -189,6 +189,22 @@
                         });
             }
 
+            function updateBusPosition(route, itinerary, bus) {
+                $.get("/data", { what: "bus_position", route: route, itinerary: itinerary, bus: bus.id })
+                        .done(function(data) {
+                            bus.marker.setPosition(new google.maps.LatLng(data[0],data[1]));
+                        });
+            }
+
+            function updateBuses() {
+                for (var key in buses) {
+                    updateBusPosition(
+                        $("select#routes option:selected").val(),
+                        $("select#itineraries option:selected").val(),
+                        buses[key]);
+                }
+            }
+
             function getMap(route, itinerary) {
                 $.get("/data", { what: "map", route: route, itinerary: itinerary })
                         .done(function(data) {
@@ -277,6 +293,7 @@
                 setInterval(function(){
                     if ($("select#stops option:selected").val() !== "") {
                         getTime($("select#routes option:selected").val(), $("select#itineraries option:selected").val(), $("select#stops option:selected").val());
+                        updateBuses();
                     }
                 }, 15000);
             });
